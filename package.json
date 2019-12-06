@@ -1,9 +1,10 @@
 {
-  "name": "fsc-sdk",
-  "version": "0.0.1",
+  "name": "@pace/fsc-sdk",
+  "version": "0.0.1-alpha.8",
   "description": "PACE Fueling Simulator Client SDK",
-  "main": "index.js",
+  "main": "lib/index.js",
   "license": "MIT",
+  "author": "PACE",
   "scripts": {
     "type-check": "tsc --noEmit",
     "type-check:watch": "yarn run type-check -- --watch",
@@ -20,5 +21,8 @@
     "@babel/preset-env": "^7.7.4",
     "@babel/preset-typescript": "^7.7.4",
     "typescript": "^3.7.2"
+  },
+  "publishConfig": {
+    "@pace:registry":"https://lab.jamit.de/api/v4/projects/996/packages/npm/"
   }
 }
