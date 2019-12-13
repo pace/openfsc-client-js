@@ -27,6 +27,7 @@ class FSC {
     this.sessions.set('s1', session);
 
     await this.socketWrapper.connect();
+    await this.socketWrapper.charset();
     await this.socketWrapper.plainAuth();
 
     return session;
