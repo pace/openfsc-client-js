@@ -17,11 +17,7 @@ export const customConsole = (function (defaultConsole) {
   })
 }(window.console));
 
-export const getEncodedSocketMessage = (message: string) => {
+export const getEncodedUTF8Message = (message: string) => {
   const terminatedMessage = `${message}\r\n`;
-  const array = new Array(terminatedMessage.length);
-  for (let i = 0; i < terminatedMessage.length; ++i) {
-    array[i] = terminatedMessage.charCodeAt(i) & 0xFF;
-  }
-  return new Uint8Array(array);
+  return new TextEncoder().encode(terminatedMessage)
 };

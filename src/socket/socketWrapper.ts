@@ -7,7 +7,10 @@ import {
   FSC_API_SERVER_RESPONSE,
   Requests
 } from "../utils/types";
-import { customConsole, getEncodedSocketMessage } from "../utils/helpers";
+import {
+  customConsole,
+  getEncodedUTF8Message
+} from "../utils/helpers";
 import Session from "../session";
 
 class SocketWrapper {
@@ -92,10 +95,6 @@ class SocketWrapper {
         ' not connected.');
     }
   }
-
-  charset() {
-    // not supported by server yet
-  };
 
   onMessage = async (event: MessageEvent) => {
     let message = await event.data.text();
@@ -197,6 +196,10 @@ class SocketWrapper {
     return this.sendRequest(FSC_API_CLIENT_REQUEST.PLAINAUTH, `${this._siteID} ${this._secret}`);
   }
 
+  charset() {
+    return this.sendRequest(FSC_API_CLIENT_REQUEST.CHARSET, 'UTF-8');
+  };
+
   getMessage({ tag, method, args }: { tag: string, method: string, args?: string }) {
     let message = `${tag} ${method}`;
     if (args) {
@@ -207,7 +210,8 @@ class SocketWrapper {
 
   sendEncodedMessage(message: string) {
     if (this.socket !== null && this.socket.readyState === 1) {
-      this.socket.send(getEncodedSocketMessage(message));
+      const encodedMessage = getEncodedUTF8Message(message);
+      this.socket.send(encodedMessage);
     } else {
       customConsole.warn('[ WEB SOCKET MESSAGE COULD NOT BE SENT ] ');
     }
@@ -240,6 +244,7 @@ class SocketWrapper {
     customConsole.log('[ WEB SOCKET RECONNECTING ]');
     try {
       await this.connect();
+      await this.charset();
       await this.plainAuth();
     } catch (e) {
       customConsole.warn('[ WEB SOCKET RECONNECTION ERROR ]', e);
