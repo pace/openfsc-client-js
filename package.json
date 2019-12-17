@@ -3,7 +3,7 @@
   "version": "0.0.1-alpha.8",
   "description": "PACE Fueling Simulator Client SDK",
   "main": "lib/index.js",
-  "license": "MIT",
+  "license": "UNLICENSED",
   "author": "PACE",
   "scripts": {
     "type-check": "tsc --noEmit",
