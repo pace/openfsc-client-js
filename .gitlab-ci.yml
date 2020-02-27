@@ -1,0 +1,13 @@
+
+image: node:latest
+
+stages:
+  - release
+
+deploy:
+  stage: release
+  script:
+    - npm publish
+  only:
+    refs:
+      - master
