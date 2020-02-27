@@ -10,7 +10,7 @@ server through a web socket connection.
 yarn add @pace/fsc-sdk
 ```
 
-## Build 
+## Build
 ```bash
 yarn build
 ```
@@ -66,7 +66,7 @@ const session = new FSC({
     console.log('onTransactions ', session);
 
     session.transaction(3, 'c71b9838ad3dfc15', 'open', '0100', 'EUR',
-      86.83, 72.978, 19.0, 13.65, 'LTR', 54.40);
+      86.83, 72.978, 19.0, 13.65, 'LTR', 54.40, 1.339);
   },
 
   onClear: function (session, pumpNr, siteTransactionId, paceTransactionId) {

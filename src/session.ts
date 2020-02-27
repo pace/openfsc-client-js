@@ -93,14 +93,14 @@ class Session {
   transaction(pumpId: number, siteTransactionId: string, status: string,
               productId: string, currency: string, priceWithVAT: number,
               priceWithoutVAT: number, VATRate: number, VATAmount: number,
-              unit: string, volume: number) {
+              unit: string, volume: number, pricePerUnit: number) {
     if (!Object.values(TransactionStatus).includes(status as TransactionStatus)) {
       throw new Error(`Not supported status, change status to: ${TransactionStatus.open} or ${TransactionStatus.deferred}`);
     }
     let args = `${pumpId} ${siteTransactionId} ${status} ${productId} ${currency} ` +
       `${priceWithVAT.toFixed(2)} ${priceWithoutVAT.toFixed(2)} ` +
       `${VATRate.toFixed(2)} ${VATAmount.toFixed(2)} ` +
-      `${unit} ${volume}`;
+      `${unit} ${volume} ${pricePerUnit}`;
     this.socketWrapper.sendNotification(FSC_API_CLIENT_NOTIFICATION.TRANSACTION, args);
   }
 }
