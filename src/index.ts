@@ -10,17 +10,19 @@ export interface FSCFunctionsI {
 }
 
 class FSC {
+  fscSocketURL: string;
   functions: FSCFunctionsI;
   socketWrapper: SocketWrapper;
   sessions: Map<string, Session>;
 
-  constructor(functions: FSCFunctionsI) {
+  constructor(fscSocketURL: string, functions: FSCFunctionsI) {
+    this.fscSocketURL = fscSocketURL;
     this.functions = functions;
     this.sessions = new Map();
-    this.socketWrapper = new SocketWrapper(this.sessions);
+    this.socketWrapper = new SocketWrapper(this.fscSocketURL, this.sessions);
   }
 
-  async connect({ siteID, secret }: { siteID: string, secret: string }) {
+  async connect(siteID: string, secret: string) {
     this.socketWrapper.siteID = siteID;
     this.socketWrapper.secret = secret;
     const session = new Session(1, this.socketWrapper, this.functions);
@@ -33,7 +35,7 @@ class FSC {
     return session;
   }
 
-  newSession({ siteID, secret }: { siteID: string, secret: string }) {
+  newSession(siteID: string, secret: string ) {
     // Not implemented yet
   }
 
