@@ -23,9 +23,10 @@ class SocketWrapper {
   private _siteID: string | null = null;
   private sessions: Map<string, Session>;
   private socket: WebSocket | null = null;
-  private socketUrl: string = 'wss://fsc.dev.k8s.pacelink.net/ws/text';
+  private socketUrl: string;
 
-  constructor(sessions: Map<string, Session>) {
+  constructor(socketURL: string, sessions: Map<string, Session>) {
+    this.socketUrl = socketURL;
     this.sessions = sessions;
   }
 
