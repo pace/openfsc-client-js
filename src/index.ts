@@ -2,7 +2,8 @@ import SocketWrapper from "./socket/socketWrapper";
 import Session from "./session";
 
 export interface FSCFunctionsI {
-  onClear: Function
+  onSessionMode: Function,
+  onClear: Function,
   onPrices: Function,
   onPumps: Function,
   onPumpStatus: Function,

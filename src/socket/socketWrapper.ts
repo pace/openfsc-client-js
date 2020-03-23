@@ -5,7 +5,7 @@ import {
   FSC_API_SERVER_NOTIFICATION,
   FSC_API_SERVER_REQUEST,
   FSC_API_SERVER_RESPONSE,
-  Requests
+  Requests,
 } from "../utils/types";
 import {
   customConsole,
@@ -14,7 +14,7 @@ import {
 import Session from "../session";
 
 class SocketWrapper {
-  private capabilityClient: string = 'CLEAR HEARTBEAT PRICES PUMPS PUMPSTATUS QUIT TRANSACTIONS';
+  private capabilityClient: string = 'CLEAR HEARTBEAT PRICES PUMPS PUMPSTATUS QUIT TRANSACTIONS SESSIONMODE';
   private capabilityServerRequestID: string = 'CSR';
   private counter: number = 0;
   private isMultiplexing: boolean = false;
@@ -103,39 +103,38 @@ class SocketWrapper {
     let [tag, method, ...args] = message.split(" ");
     let sessionId = this.sessions.keys().next().value;
     let isNotification = tag === '*';
+
     if (this.isMultiplexing) {
       const fields = tag.split(".");
       sessionId = fields[0];
       isNotification = fields[1] === '*';
     }
 
+    const session = this.sessions.get(sessionId);
+    if (!session) {
+      customConsole.warn(`[ WEB SOCKET SESSION DOES NOT EXIST ] | session: '${sessionId}'`);
+      return;
+    }
+
     if (isNotification) {
-      this.handleReceivedNotification({
-        message,
-        method,
-        args: args.join(" ")
-      });
+      this.handleReceivedNotification({ session, message, method, args });
     } else {
       const isServerRequest = Object.values(FSC_API_SERVER_REQUEST).includes(method as FSC_API_SERVER_REQUEST);
 
       if (isServerRequest) {
-        this.handleReceivedRequest({ sessionId, message, tag, method, args });
+        this.handleReceivedRequest({ session, message, tag, method, args });
       } else {
         this.handleReceivedResponse({ message, tag, method });
       }
     }
   };
 
-  handleReceivedRequest({ sessionId, message, tag, method, args }: { sessionId: string, message: string, tag: string, method: string, args: string[] }) {
+  handleReceivedRequest({ session, message, tag, method, args }: { session: Session, message: string, tag: string, method: string, args: string[] }) {
     customConsole.log(`[ WEB SOCKET RECEIVED REQUEST ]       | ${message}`);
-    const session = this.sessions.get(sessionId);
-    if (!session) {
-      customConsole.warn(`[ WEB SOCKET SESSION DOES NOT EXIST ] | session: '${sessionId}'`);
-      return;
-    }
+
     switch (method) {
       case FSC_API_SERVER_REQUEST.CLEAR:
-        session.handleClear(tag, args[0], args[1], args[2]);
+        session.handleClearRequest(tag, args[0], args[1], args[2]);
         break;
       case FSC_API_SERVER_REQUEST.HEARTBEAT:
         const date = new Date().toISOString();
@@ -179,14 +178,17 @@ class SocketWrapper {
     }
   }
 
-  handleReceivedNotification({ message, method, args }: { message: string, method: string, args: string }) {
+  handleReceivedNotification({ session, message, method, args }: { session: Session, message: string, method: string, args: string[] }) {
     customConsole.log(`[ WEB SOCKET RECEIVED NOTIFICATION ]  | ${message}`);
     switch (method) {
       case FSC_API_SERVER_NOTIFICATION.CAPABILITY:
         this.resolve(this.capabilityServerRequestID);
         break;
       case FSC_API_SERVER_NOTIFICATION.QUIT:
-        customConsole.log(`[ WEB SOCKET RECEIVED QUIT NOTIFICATION ] | reason: ${args}`);
+        customConsole.log(`[ WEB SOCKET RECEIVED QUIT NOTIFICATION ] | reason: ${args.join(" ")}`);
+        break;
+      case FSC_API_SERVER_NOTIFICATION.SESSIONMODE:
+        session.handleSessionMode(args[0])
         break;
       default:
         customConsole.warn(`[ WEB SOCKET NOTIFICATION DOES NOT EXIST ] | method: '${method}'`);

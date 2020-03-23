@@ -6,7 +6,7 @@ import {
   FSC_API_CLIENT_RESPONSE,
   PumpStatus,
   TransactionStatus,
-  Volume
+  Volume,
 } from "./utils/types";
 import { customConsole } from "./utils/helpers";
 
@@ -21,7 +21,15 @@ class Session {
     this.socketWrapper = socketWrapper;
   }
 
-  handleClear = (tag: string, pumpNr: string, transactionId: string, pacePaymentId: string) => {
+  handleSessionMode = (state: string) => {
+    try {
+      this.functions.onSessionMode(this, state);
+    } catch (e) {
+      customConsole.error(e);
+    }
+  }
+
+  handleClearRequest = (tag: string, pumpNr: string, transactionId: string, pacePaymentId: string) => {
     try {
       this.functions.onClear(this, parseInt(pumpNr), transactionId, pacePaymentId);
       this.socketWrapper.sendResponse(tag, FSC_API_CLIENT_RESPONSE.OK);
