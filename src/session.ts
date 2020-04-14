@@ -95,7 +95,7 @@ class Session {
     if (!Object.values(Currency).includes(currency as Currency)) {
       throw new Error(`Not supported currency, change currency to: ${Currency.EUR}`);
     }
-    this.socketWrapper.sendNotification(FSC_API_CLIENT_NOTIFICATION.PRICE, `${productId} ${unit} ${currency} ${pricePerUnit} ${description}`);
+    this.socketWrapper.sendNotification(FSC_API_CLIENT_NOTIFICATION.PRICE, `${productId} ${unit} ${currency} ${pricePerUnit.toFixed(3)} ${description}`);
   }
 
   transaction(pumpId: number, siteTransactionId: string, status: string,
@@ -108,7 +108,7 @@ class Session {
     let args = `${pumpId} ${siteTransactionId} ${status} ${productId} ${currency} ` +
       `${priceWithVAT.toFixed(2)} ${priceWithoutVAT.toFixed(2)} ` +
       `${VATRate.toFixed(2)} ${VATAmount.toFixed(2)} ` +
-      `${unit} ${volume} ${pricePerUnit}`;
+      `${unit} ${volume.toFixed(2)} ${pricePerUnit.toFixed(3)}`;
     this.socketWrapper.sendNotification(FSC_API_CLIENT_NOTIFICATION.TRANSACTION, args);
   }
 }
