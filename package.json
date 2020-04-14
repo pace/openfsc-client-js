@@ -1,6 +1,6 @@
 {
   "name": "@pace/fsc-sdk",
-  "version": "0.0.1-alpha.15",
+  "version": "0.0.1-alpha.16",
   "description": "PACE Fueling Simulator Client SDK",
   "main": "lib/index.js",
   "license": "UNLICENSED",
@@ -23,6 +23,6 @@
     "typescript": "^3.7.2"
   },
   "publishConfig": {
-    "@pace:registry":"https://lab.jamit.de/api/v4/projects/996/packages/npm/"
+    "@pace:registry": "https://lab.jamit.de/api/v4/projects/996/packages/npm/"
   }
 }
