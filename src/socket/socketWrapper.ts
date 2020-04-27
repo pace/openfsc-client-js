@@ -14,7 +14,7 @@ import {
 import Session from "../session";
 
 class SocketWrapper {
-  private capabilityClient: string = 'CLEAR HEARTBEAT PRICES PUMPS PUMPSTATUS QUIT TRANSACTIONS SESSIONMODE';
+  private capabilityClient: string = 'CLEAR HEARTBEAT PRICES PUMPS PUMPSTATUS QUIT TRANSACTIONS SESSIONMODE LOCKPUMP UNLOCKPUMP';
   private capabilityServerRequestID: string = 'CSR';
   private counter: number = 0;
   private isMultiplexing: boolean = false;
