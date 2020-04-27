@@ -98,6 +98,26 @@ class Session {
     this.socketWrapper.sendNotification(FSC_API_CLIENT_NOTIFICATION.PRICE, `${productId} ${unit} ${currency} ${pricePerUnit.toFixed(3)} ${description}`);
   }
 
+  handleLockPumpRequest = (tag: string, pumpNr : string) => {
+    try {
+      this.functions.onLockPump(this, parseInt(pumpNr));
+      this.socketWrapper.sendResponse(tag, FSC_API_CLIENT_RESPONSE.OK);
+    } catch (e) {
+      customConsole.error(e);
+      this.socketWrapper.sendResponse(tag, FSC_API_CLIENT_RESPONSE.ERR, e.message);
+    }
+  };
+
+  handleUnlockPumpRequest = (tag: string, pumpNr : string, currency : string, credit : string, paceTransactionId : string, ...productIds : string[]) => {
+    try {
+      this.functions.onUnlockPump(this, parseInt(pumpNr), currency, parseFloat(credit), paceTransactionId, ...productIds);
+      this.socketWrapper.sendResponse(tag, FSC_API_CLIENT_RESPONSE.OK);
+    } catch (e) {
+      customConsole.error(e);
+      this.socketWrapper.sendResponse(tag, FSC_API_CLIENT_RESPONSE.ERR, e.message);
+    }
+  };
+
   transaction(pumpId: number, siteTransactionId: string, status: string,
               productId: string, currency: string, priceWithVAT: number,
               priceWithoutVAT: number, VATRate: number, VATAmount: number,

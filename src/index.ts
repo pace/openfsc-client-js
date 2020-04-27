@@ -8,6 +8,8 @@ export interface FSCFunctionsI {
   onPumps: Function,
   onPumpStatus: Function,
   onTransactions: Function,
+  onUnlockPump: Function,
+  onLockPump: Function,
 }
 
 class FSC {
