@@ -93,7 +93,7 @@ class Session {
       throw new Error(`Not supported unit, change unit to: ${Volume.LTR}`);
     }
     if (!Object.values(Currency).includes(currency as Currency)) {
-      throw new Error(`Not supported currency, change currency to: ${Currency.EUR}`);
+      throw new Error(`Not supported currency`);
     }
     this.socketWrapper.sendNotification(FSC_API_CLIENT_NOTIFICATION.PRICE, `${productId} ${unit} ${currency} ${pricePerUnit.toFixed(3)} ${description}`);
   }
