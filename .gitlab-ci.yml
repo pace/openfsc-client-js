@@ -9,7 +9,7 @@ lib_publish:
   except:
     - schedules
   script:
-    # - npm install -g npm@latest
+    - npm install
     - DATE=$(date +"%s")
     - LIB_VERSION=$(npm version | grep @pace/fsc-sdk | sed -E "s/.*([0-9]+).([0-9]+).([0-9]+).*/\1.\2.$DATE/")
     - npm version $LIB_VERSION
