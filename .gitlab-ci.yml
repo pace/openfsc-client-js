@@ -9,10 +9,10 @@ lib_publish:
   except:
     - schedules
   script:
-    - npm install
     - DATE=$(date +"%s")
     - LIB_VERSION=$(npm version | grep @pace/fsc-sdk | sed -E "s/.*([0-9]+).([0-9]+).([0-9]+).*/\1.\2.$DATE/")
     - npm version $LIB_VERSION
+    - npm install
     - npm run build
     - echo '//lab.jamit.de/api/v4/projects/996/packages/npm/:_authToken=${CI_JOB_TOKEN}'>.npmrc
     - npm publish
