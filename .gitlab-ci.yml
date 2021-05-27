@@ -11,7 +11,7 @@ lib_publish:
   script:
     # - npm install -g npm@latest
     - DATE=$(date +"%s")
-    - LIB_VERSION=$(npm version | grep @pace/${LIB_NAME} | sed -E "s/.*([0-9]+).([0-9]+).([0-9]+).*/\1.\2.$DATE/")
+    - LIB_VERSION=$(npm version | grep @pace/fsc-sdk | sed -E "s/.*([0-9]+).([0-9]+).([0-9]+).*/\1.\2.$DATE/")
     - npm version $LIB_VERSION
     - npm run build
     - echo '//lab.jamit.de/api/v4/projects/996/packages/npm/:_authToken=${CI_JOB_TOKEN}'>.npmrc
