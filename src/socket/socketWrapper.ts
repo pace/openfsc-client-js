@@ -142,7 +142,7 @@ class SocketWrapper {
         this.sendResponse(tag, FSC_API_CLIENT_RESPONSE.OK);
         break;
       case FSC_API_SERVER_REQUEST.LOCKPUMP:
-        // not implemented yet
+        session.handleLockPumpRequest(tag, args[0])
         break;
       case FSC_API_SERVER_REQUEST.PRICES:
         session.handlePricesRequest(tag);
@@ -157,7 +157,7 @@ class SocketWrapper {
         session.handleTransactionsRequest(tag, args[0], args[1]);
         break;
       case FSC_API_SERVER_REQUEST.UNLOCKPUMP:
-        // not implemented yet
+        session.handleUnlockPumpRequest(tag, args[0], args[1], args[2], args[3]);
         break;
       default:
         customConsole.warn(`[ WEB SOCKET REQUEST DOES NOT EXIST ] | method: '${method}'`);
