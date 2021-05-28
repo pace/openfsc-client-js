@@ -1,10 +1,11 @@
 {
   "name": "@pace/fsc-sdk",
-  "version": "0.0.1-alpha.19",
+  "version": "1.0.0",
   "description": "PACE Fueling Simulator Client SDK",
   "main": "lib/index.js",
   "license": "UNLICENSED",
-  "author": "PACE",
+  "author": "pace",
+  "private": false,
   "scripts": {
     "type-check": "tsc --noEmit",
     "type-check:watch": "yarn run type-check -- --watch",

@@ -142,7 +142,7 @@ class SocketWrapper {
         this.sendResponse(tag, FSC_API_CLIENT_RESPONSE.OK);
         break;
       case FSC_API_SERVER_REQUEST.LOCKPUMP:
-          session.handleLockPumpRequest(tag, args[0]);
+        session.handleLockPumpRequest(tag, args[0]);
         break;
       case FSC_API_SERVER_REQUEST.PRICES:
         session.handlePricesRequest(tag);
