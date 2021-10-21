@@ -49,6 +49,16 @@ class Session {
     }
   };
 
+  handleProductsRequest = (tag: string) => {
+    try {
+      this.functions.onProducts(this);
+      this.socketWrapper.sendResponse(tag, FSC_API_CLIENT_RESPONSE.OK);
+    } catch (e) {
+      customConsole.error(e);
+      this.socketWrapper.sendResponse(tag, FSC_API_CLIENT_RESPONSE.ERR, e.message);
+    }
+  };
+
   handlePumpsRequest = (tag: string) => {
     try {
       this.functions.onPumps(this);
@@ -97,6 +107,32 @@ class Session {
     }
     this.socketWrapper.sendNotification(FSC_API_CLIENT_NOTIFICATION.PRICE, `${productId} ${unit} ${currency} ${pricePerUnit.toFixed(3)} ${description}`);
   }
+
+  product(productId: string, category: string, vatRate: number,
+    unit: string = "", optionalName: string = "") {
+    if (unit != "") {
+      if (!Object.values(Volume).includes(unit as Volume)) {
+        throw new Error(`Not supported unit, change unit to: ${Volume.LTR}`);
+      }
+    }
+    if (unit == "" && optionalName != "") {
+      throw new Error(`Not supported to report an optional name but no unit`);
+    }
+
+    const base = `${productId} ${category} ${vatRate.toFixed(1)}`;
+    var line : string;
+
+    if (unit == "" && optionalName == "") {
+      line = base;
+    } else if (optionalName == "") {
+      line = base + " " + unit;
+    } else {
+      line = base + " " + unit + " " + optionalName;
+    }
+
+    this.socketWrapper.sendNotification(FSC_API_CLIENT_NOTIFICATION.PRODUCT, line);
+  }
+
 
   handleLockPumpRequest = (tag: string, pumpNr : string) => {
     try {

@@ -41,6 +41,12 @@ const session = new FSC({
     session.price(1, '0300', "LTR", "EUR", 1.499, 'Super 95 e5');
   },
 
+  onProducts: function (session) {
+    session.product(1, '0100', 'ron98e5', 19.0);
+    session.product(1, '0200', 'ron95e10', 19.0);
+    session.product(1, '0300', 'ron95e5', 19.0);
+  },
+
   onPumps: function (session) {
     session.pump(1, 'in-use');
     session.pump(2, 'out-of-order');
