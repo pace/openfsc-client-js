@@ -14,7 +14,7 @@ import {
 import Session from "../session";
 
 class SocketWrapper {
-  private capabilityClient: string = 'CLEAR HEARTBEAT PRICES PUMPS PUMPSTATUS QUIT TRANSACTIONS SESSIONMODE LOCKPUMP UNLOCKPUMP TRANSACTIONINFO';
+  private capabilityClient: string = 'CLEAR HEARTBEAT PRICES PUMPS PRODUCTS PUMPSTATUS QUIT TRANSACTIONS SESSIONMODE LOCKPUMP UNLOCKPUMP TRANSACTIONINFO';
   private capabilityServerRequestID: string = 'CSR';
   private counter: number = 0;
   private isMultiplexing: boolean = false;
@@ -146,6 +146,9 @@ class SocketWrapper {
         break;
       case FSC_API_SERVER_REQUEST.PRICES:
         session.handlePricesRequest(tag);
+        break;
+      case FSC_API_SERVER_REQUEST.PRODUCTS:
+        session.handleProductsRequest(tag);
         break;
       case FSC_API_SERVER_REQUEST.PUMPSTATUS:
         session.handlePumpStatusRequest(tag, args[0], args[1]);

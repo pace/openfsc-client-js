@@ -5,6 +5,7 @@ export interface FSCFunctionsI {
   onSessionMode: Function,
   onClear: Function,
   onPrices: Function,
+  onProducts: Function,
   onPumps: Function,
   onPumpStatus: Function,
   onTransactions: Function,
