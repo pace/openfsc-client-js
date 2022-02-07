@@ -1,5 +1,8 @@
 export enum Volume {
-  LTR = "LTR"
+  LTR = "LTR",
+  KG = "KG",
+  US_GAL = "US-GAL",
+  UK_GAL = "UK-GAL"
 }
 
 export enum Currency {
